@@ -1,5 +1,6 @@
 {
   "name": "Slideshow",
+  "logo": "icon-logo.png"
   "version": "1.0.0",
   "description": "Slideshow allow you to sharing Slides on streaming",
   "main": "server.js",
