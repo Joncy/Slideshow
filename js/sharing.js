@@ -15,12 +15,12 @@ window.onload = function () {
   PDFJS.workerSrc = '../js/src/worker_loader.js';
 
 
-var url = "../presentation/presentation.pdf"
-var numPages = 1;
-var page = 1;
-var downloadPrompt = false;
+  var url = "../presentation/presentation.pdf"
+  var numPages = 1;
+  var page = 1;
+  var downloadPrompt = false;
 
-function getPdfPage(number) {
+  function getPdfPage(number) {
   //
   // Fetch the PDF document from the URL using promises
   //
@@ -52,15 +52,15 @@ function getPdfPage(number) {
   });
 }
 
- var socket = io();
-  var time;
-  var timerOn;
-  
-  getPdfPage(page);
-  socket.emit('new page', page);
-  socket.on('sharing?', function() {
-    socket.emit('sharing');
-  });
+var socket = io();
+var time;
+var timerOn;
+
+getPdfPage(page);
+socket.emit('new page', page);
+socket.on('sharing?', function() {
+  socket.emit('sharing');
+});
 
 function goLeft () {
   if (downloadPrompt == false) {
@@ -74,7 +74,7 @@ function goLeft () {
         timerOn = 0;
         socket.emit('new page', page);
         getPdfPage(page);
-       }, 500);
+      }, 500);
     }
   }
 }
@@ -84,14 +84,14 @@ function goRight () {
     if (page != numPages) {
       page++;
       if (timerOn == 1){
-          clearTimeout(time); 
-        }
+        clearTimeout(time); 
+      }
       timerOn = 1;
       time = setTimeout(function(){
-          timerOn = 0;      
-          socket.emit('new page', page);
-          getPdfPage(page);
-         }, 500);
+        timerOn = 0;      
+        socket.emit('new page', page);
+        getPdfPage(page);
+      }, 500);
     } else {
       downloadPrompt = true;
       if(document.webkitFullscreenElement) {  
@@ -114,45 +114,53 @@ function makeFullScreen () {
     document.webkitCancelFullScreen();  
   }  
   else {  
-    elem.webkitRequestFullScreen();  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } 
   }
 }
 
 function move_up() {
-    document.getElementById('show-frame').scrollTop += 10;
+  document.getElementById('show-frame').scrollTop += 10;
 }
 
 function move_down() {
-    document.getElementById('show-frame').scrollTop -= 10;
+  document.getElementById('show-frame').scrollTop -= 10;
 }
 
 function keyHandler(e) {
   switch (e.keyCode) {
     case 39:
-      goRight();
-      break;
+    goRight();
+    break;
     case 37:
-      goLeft();
-      break;
+    goLeft();
+    break;
     case 40:
-      move_up();
-      break;
+    move_up();
+    break;
     case 38:
-      move_down();
-      break;
+    move_down();
+    break;
     default:
-      break;
-    }
+    break;
+  }
 }
 
 function allowDownload () {
   socket.emit('download')
 }
 
-  document.getElementById('button-left').addEventListener("click", goLeft); 
-  document.getElementById('button-right').addEventListener("click", goRight);
-  document.getElementById('fs-button').addEventListener("click", makeFullScreen);
-  document.getElementById('download-button').addEventListener("click", allowDownload);
-  window.addEventListener("keydown", keyHandler, false);
+document.getElementById('button-left').addEventListener("click", goLeft); 
+document.getElementById('button-right').addEventListener("click", goRight);
+document.getElementById('fs-button').addEventListener("click", makeFullScreen);
+document.getElementById('download-button').addEventListener("click", allowDownload);
+window.addEventListener("keydown", keyHandler, false);
 
 }

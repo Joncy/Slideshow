@@ -111,12 +111,24 @@ function getPdfPage(number) {
   function makeFullScreen () {
     var elem = document.getElementById('show-frame');  
 
-    if(document.webkitFullscreenElement) {  
-      document.webkitCancelFullScreen();  
-    }  
-    else {  
-      elem.webkitRequestFullScreen();  
-    }
+    // Are we full screen?
+  if (document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement) {  
+    document.webkitCancelFullScreen();  
+  }  
+  else {  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } 
+  }
   }
   
   function move_up() {

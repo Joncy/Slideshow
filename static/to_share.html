@@ -23,7 +23,7 @@
     			data.append('file', param);
 
 				$.ajax({
-    				url: 'http://localhost:3000/',
+    				url: '/',
     				data: data,
 				    cache: false,
 				    contentType: false,
@@ -38,8 +38,8 @@
 				var form = document.getElementById('upload-form');
 				var testVar = form.userSlideshare.value.split(".");
 				var isOk = true;
-				if (testVar[testVar.length -1] != "pdf" && testVar[testVar.length -1] != "ppt" && testVar[testVar.length -1] != "pptx") {
-					alert("That isn't a valid presentation format! Please upload pdfs, ppts or pptx");
+				if (testVar[testVar.length -1] != "pdf") {
+					alert("That isn't a valid presentation format! Please upload pdfs");
 					isOk = false;
 				}  else {
 					socket.emit('sharing');
@@ -55,18 +55,19 @@
                     	
                     	var file = event.dataTransfer.files[0];
                     	if ('name' in file)
-                    		var fileName = file.name;
-                    	else
+                            var fileName = file.name;
+                        else
                     		var fileName = file.fileName;
                     	if ('size' in file)
                     		var fileSize = file.size;
                     	else
                     		var fileSize = fileSize;
+
                     	var arr = fileName.split(".");
                     	var ext = arr[arr.length -1];
                     	//alert("file -- name: " + fileName + ", size: " + fileSize + " bytes" + ", extension: " + ext);
-                    	if (ext != "pdf" && ext != "ppt" && ext != "pptx")
-                    		alert("That isn't a valid presentation format! Please upload pdfs, ppts or pptx");
+                    	if (ext != "pdf")
+                    		alert("That isn't a valid presentation format! Please upload pdfs");
                     	else
                     	{
                     		post(file);

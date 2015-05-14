@@ -2,7 +2,7 @@
   "name": "Slideshow",
   "logo": "icon-logo.png",
   "version": "1.0.0",
-  "description": "Slideshow allow you to sharing Slides on streaming",
+  "description": "Slideshow allow you to sharing Slides (pdf) on streaming",
   "main": "server.js",
   "dependencies": {
     "accepts": "^1.2.7",

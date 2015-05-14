@@ -54,17 +54,7 @@ app.use(
       rename: function (fieldname, filename) {
             return filename.replace(filename, 'Presentation').toLowerCase();
         } ,
-        onFileUploadComplete: function (file) {
-      console.log(file.fieldname + ' uploaded to  ' + file.path);
-      console.log(file.extension);      
-
-      if(file.extension == "ppt") {
-        exec("unoconv -f pdf presentation/*.ppt", puts);
-        exec("rm presentation/*.ppt", puts);  
-      } else if(file.extension == "pptx") {
-        exec("unoconv -f pdf presentation/*.pptx", puts);
-        exec("rm presentation/*.pptx", puts); 
-      }
+        onFileUploadComplete: function (file) {     
       }
     }
   )
